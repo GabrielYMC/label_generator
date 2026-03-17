@@ -4,7 +4,7 @@
 
 
 
-本專案為一款純前端 (Frontend-only) 的網頁應用程式，專為淡江大學課外活動組 (Tamkang University Student Activities Section) 設計，用於快速、自動化地產生器材管理標籤。
+本專案為一款純前端 (Frontend-only) 的網頁應用程式，用於快速、自動化地產生器材管理標籤。
 
 
 
