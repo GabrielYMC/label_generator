@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>淡江大學課外活動組 - 器材標籤產生器 V17 (參數快照修復版)</title>
+    <title>淡江大學課外活動組 - 器材標籤產生器 V18 (字級解鎖修復版)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
@@ -60,31 +60,17 @@
             flex-shrink: 0; margin-bottom: 40px; width: 100%;
         }
 
-        /* ⭐️ 動作按鈕與尺寸選單列 ⭐️ */
-        .action-row {
-            display: flex; align-items: stretch; gap: 12px; margin-top: 15px;
-        }
-        .size-select {
-            background-color: #2a2a2a; border: 2px solid #555; color: #fff; 
-            padding: 0 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;
-        }
+        .action-row { display: flex; align-items: stretch; gap: 12px; margin-top: 15px; }
+        .size-select { background-color: #2a2a2a; border: 2px solid #555; color: #fff; padding: 0 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .size-select:focus { outline: none; border-color: #ff5500; }
 
-        .add-queue-btn {
-            background-color: transparent; border: 2px dashed #ff5500; color: #ff5500; 
-            padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 8px;
-            cursor: pointer; transition: 0.2s; margin: 0;
-        }
+        .add-queue-btn { background-color: transparent; border: 2px dashed #ff5500; color: #ff5500; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; margin: 0; }
         .add-queue-btn:hover { background-color: #ff5500; color: #fff; border-style: solid; box-shadow: 0 4px 15px rgba(255, 85, 0, 0.4);}
         .add-queue-btn-a { border-color: #888; color: #ccc; }
         .add-queue-btn-a:hover { background-color: #555; color: #fff; border-style: solid; box-shadow: 0 4px 15px rgba(136, 136, 136, 0.4);}
 
-        /* ⭐️ 待列印清單 (購物車) ⭐️ */
-        .queue-panel {
-            width: 100%; max-width: 800px; background: #2a2a2a; border: 1px solid #444; 
-            border-radius: 8px; padding: 15px 20px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            flex-shrink: 0;
-        }
+        /* 待列印清單 */
+        .queue-panel { width: 100%; max-width: 800px; background: #2a2a2a; border: 1px solid #444; border-radius: 8px; padding: 15px 20px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); flex-shrink: 0; }
         .queue-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 10px; }
         .queue-header h3 { margin: 0; color: #fff; font-size: 16px; border: none; padding: 0;}
         .queue-list { max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
@@ -115,11 +101,7 @@
         .font-md { font-size: var(--font-md); font-weight: 900; }
         .font-sm { font-size: var(--font-sm); font-weight: 700; letter-spacing: 0.5px; }
 
-        .label-container {
-            position: relative; overflow: hidden;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            transform-origin: top center;
-        }
+        .label-container { position: relative; overflow: hidden; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); transform-origin: top center; }
         
         #app-preview .label-container.type-a { transform: scale(0.85); margin-bottom: -45px; }
         #app-preview .label-container.type-b { transform: scale(0.85); margin-bottom: -80px; }
@@ -271,8 +253,10 @@
 
         <h2>④ 排版微調 (作用於所有標籤)</h2>
         <div class="form-group"><label><span>外框粗細</span> <span>{{ styles.borderWidth }}px</span></label><input type="range" v-model="styles.borderWidth" min="2" max="12" step="1"></div>
-        <div class="form-group"><label><span>大字級 (名稱/編號)</span> <span>{{ styles.fontXl }}px</span></label><input type="range" v-model="styles.fontXl" min="16" max="40" step="1"></div>
-        <div class="form-group"><label><span>中字級 (場地/標題)</span> <span>{{ styles.fontLg }}px</span></label><input type="range" v-model="styles.fontLg" min="12" max="30" step="1"></div>
+        <div class="form-group"><label><span>大字級 (名稱/編號)</span> <span>{{ styles.fontXl }}px</span></label><input type="range" v-model="styles.fontXl" min="16" max="80" step="1"></div>
+        <div class="form-group"><label><span>中字級 (場地/標題)</span> <span>{{ styles.fontLg }}px</span></label><input type="range" v-model="styles.fontLg" min="12" max="60" step="1"></div>
+        <div class="form-group"><label><span>小字級 (各欄位小標)</span> <span>{{ styles.fontSm }}px</span></label><input type="range" v-model="styles.fontSm" min="8" max="24" step="1"></div>
+        
         <div class="form-group"><label><span>左右區塊水平間距</span> <span>{{ styles.gapCol }}px</span></label><input type="range" v-model="styles.gapCol" min="2" max="16" step="1"></div>
 
         <div class="form-group" style="margin-top: 15px; background-color: #383838; padding: 10px; border-radius: 4px;">
@@ -341,12 +325,8 @@
                     <div class="header">
                         <div v-if="styles.logoUrl" class="logo-image" :style="{ backgroundImage: 'url(' + styles.logoUrl + ')' }"></div>
                         <div v-else class="logo-placeholder">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-    </svg>
-</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
                         <div class="title"><h1 class="font-md">{{ styles.mainTitle }}</h1><p class="font-sm">{{ styles.subTitle }}</p></div>
                     </div>
                     <div class="content">
@@ -380,18 +360,14 @@
                     <div class="header">
                         <div v-if="styles.logoUrl" class="logo-image" :style="{ backgroundImage: 'url(' + styles.logoUrl + ')' }"></div>
                         <div v-else class="logo-placeholder">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-    </svg>
-</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
                         <div class="title"><h1 class="font-md">{{ styles.mainTitle }}</h1><p class="font-sm">{{ styles.subTitle }}</p></div>
                     </div>
                     <div class="content">
                         <div class="row-layout">
                             <div class="info-box box-r1-left"><span class="info-label font-sm">器材名稱 / EQUIPMENT</span><div class="info-value font-xl">{{ form.equipModel }} {{ form.equipName }}</div><div class="info-sub font-sm">{{ form.modelSub }}</div></div>
-                            <div class="info-box box-r1-right"><span class="info-label font-sm">流通編號 / PROPERTY ID</span><div class="info-value font-xl" style="color:#fff;">{{ form.circId }}</div><div class="info-sub font-sm" style="color: var(--b-text-main);">{{ form.subId }}</div></div>
+                            <div class="info-box box-r1-right"><span class="info-label font-sm">流通編號 / PROPERTY ID</span><div class="info-value font-xl">{{ form.circId }}</div><div class="info-sub font-sm">{{ form.subId }}</div></div>
                         </div>
                         <div class="row-layout">
                             <div class="info-box box-r2-left"><span class="info-label font-sm">倉庫/場地 / VENUE</span><div class="info-value font-lg">{{ form.venue }}</div></div>
@@ -428,12 +404,8 @@
                     <div class="header">
                         <div v-if="item.styles.logoUrl" class="logo-image" :style="{ backgroundImage: 'url(' + item.styles.logoUrl + ')' }"></div>
                         <div v-else class="logo-placeholder">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-    </svg>
-</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
                         <div class="title"><h1 class="font-md">{{ item.styles.mainTitle }}</h1><p class="font-sm">{{ item.styles.subTitle }}</p></div>
                     </div>
                     <div class="content">
@@ -459,18 +431,14 @@
                     <div class="header">
                         <div v-if="item.styles.logoUrl" class="logo-image" :style="{ backgroundImage: 'url(' + item.styles.logoUrl + ')' }"></div>
                         <div v-else class="logo-placeholder">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-    </svg>
-</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
                         <div class="title"><h1 class="font-md">{{ item.styles.mainTitle }}</h1><p class="font-sm">{{ item.styles.subTitle }}</p></div>
                     </div>
                     <div class="content">
                         <div class="row-layout">
                             <div class="info-box box-r1-left"><span class="info-label font-sm">器材名稱 / EQUIPMENT</span><div class="info-value font-xl">{{ item.data.equipModel }} {{ item.data.equipName }}</div><div class="info-sub font-sm">{{ item.data.modelSub }}</div></div>
-                            <div class="info-box box-r1-right"><span class="info-label font-sm">流通編號 / PROPERTY ID</span><div class="info-value font-xl" style="color:#fff;">{{ item.data.circId }}</div><div class="info-sub font-sm" style="color: var(--b-text-main);">{{ item.data.subId }}</div></div>
+                            <div class="info-box box-r1-right"><span class="info-label font-sm">流通編號 / PROPERTY ID</span><div class="info-value font-xl">{{ item.data.circId }}</div><div class="info-sub font-sm">{{ item.data.subId }}</div></div>
                         </div>
                         <div class="row-layout">
                             <div class="info-box box-r2-left"><span class="info-label font-sm">倉庫/場地 / VENUE</span><div class="info-value font-lg">{{ item.data.venue }}</div></div>
@@ -495,19 +463,19 @@
     createApp({
         setup() {
             const form = reactive({
-                equipName: '無線擴音機', equipModel: 'MA708', modelSub: '(大TOYA)',
-                circId: '108-01', subId: '(TKU-SA-EQ-001)', venue: 'SG139', 
+                equipName: '場地風扇', equipModel: 'D42', modelSub: '(場地專用)',
+                circId: '5', subId: '', venue: '劍道社', 
                 barcodeText: '50103759-00286', qrUrl: 'https://tku.edu.tw/repair'
             });
 
+            // ⭐️ 恢復 fontSm 的控制並拉高所有字體上限 ⭐️
             const styles = reactive({
                 logoUrl: '', mainTitle: '淡江大學 課外活動組', subTitle: 'TAMKANG UNIVERSITY STUDENT ACTIVITIES SECTION', warningText: 'Notice! ⚠ 拾獲請歸還至課外組 ⚠ Notice!',
-                borderWidth: 6, fontXl: 28, fontLg: 22, fontSm: 10, fontMd: 16, 
+                borderWidth: 6, fontXl: 40, fontLg: 22, fontSm: 12, fontMd: 16, 
                 gapCol: 8, gapHeader: 6, gapR1: 8, gapR2: 8,
                 r1HeightPct: 50, r1LeftPct: 75, r2LeftPct: 35, r2MidPct: 45
             });
 
-            // ⭐️ CSS 變數產生器 (供預覽與列印獨立呼叫) ⭐️
             const getCssVars = (s) => ({
                 '--border-width': `${s.borderWidth}px`, '--font-xl': `${s.fontXl}px`, '--font-lg': `${s.fontLg}px`, '--font-md': `${s.fontMd}px`, '--font-sm': `${s.fontSm}px`,
                 '--gap-col': `${s.gapCol}px`, '--gap-header': `${s.gapHeader}px`, '--gap-r1': `${s.gapR1}px`, '--gap-r2': `${s.gapR2}px`,
@@ -515,26 +483,23 @@
                 '--r1-flex': s.r1HeightPct, '--r2-flex-a': 100 - s.r1HeightPct, '--r2-flex-b': (100 - s.r1HeightPct) * 0.6, '--r3-flex-b': (100 - s.r1HeightPct) * 0.4
             });
 
-            // 預覽區綁定當前樣式
             const previewCssVars = computed(() => getCssVars(styles));
 
             const printQueue = ref([]);
             const batchData = ref([]);
             
-            // ⭐️ 單獨紀錄使用者針對每款標籤選擇的列印尺寸 ⭐️
             const previewSize = reactive({ A: 'large', B: 'large' });
             const batchSize = ref('large');
             const printConfig = reactive({ exactColor: true });
 
             const generateId = () => 'q_' + Date.now() + '_' + Math.floor(Math.random()*1000);
 
-            // ⭐️ 加入清單時，連同樣式與尺寸一起快照儲存 ⭐️
             const addSingleToQueue = (type) => {
                 const selectedSize = type === 'A' ? previewSize.A : previewSize.B;
                 printQueue.value.push({ 
                     id: generateId(), type: type, size: selectedSize,
                     data: JSON.parse(JSON.stringify(form)),
-                    styles: JSON.parse(JSON.stringify(styles)) // 樣式快照
+                    styles: JSON.parse(JSON.stringify(styles))
                 });
             };
 
@@ -543,7 +508,7 @@
                     printQueue.value.push({ 
                         id: generateId(), type: type, size: batchSize.value,
                         data: JSON.parse(JSON.stringify(row)),
-                        styles: JSON.parse(JSON.stringify(styles)) // 樣式快照
+                        styles: JSON.parse(JSON.stringify(styles))
                     });
                 });
                 cancelBatch();
