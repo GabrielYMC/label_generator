@@ -1,6 +1,6 @@
 \# 器材標籤產生器
 
-\*\*(TKU SA - Equipment Label Generator)\*\*
+\*\*(Equipment Label Generator)\*\*
 
 
 
