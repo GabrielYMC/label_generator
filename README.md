@@ -1,10 +1,10 @@
-\# 淡江大學課外活動組 - 器材標籤產生器
+\# 器材標籤產生器
 
 \*\*(TKU SA - Equipment Label Generator)\*\*
 
 
 
-本專案為一款純前端 (Frontend-only) 的網頁應用程式，專為淡江大學課外活動組 (Tamkang University Student Activities Section) 設計，用於快速、自動化地產生具備 NERV/EVA 工業機甲風格的器材管理標籤。
+本專案為一款純前端 (Frontend-only) 的網頁應用程式，專為淡江大學課外活動組 (Tamkang University Student Activities Section) 設計，用於快速、自動化地產生器材管理標籤。
 
 
 
